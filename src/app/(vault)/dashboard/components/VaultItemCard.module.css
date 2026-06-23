@@ -1,0 +1,223 @@
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+.card:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.cardDanger {
+  border-color: rgba(239, 68, 68, 0.3) !important;
+  background: rgba(239, 68, 68, 0.03) !important;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.typeIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.titleArea {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
+.cardActions {
+  display: flex;
+  gap: var(--space-1);
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--color-text-dim);
+  transition: all var(--transition-fast);
+}
+
+.iconBtn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.iconBtnActive {
+  color: var(--color-warning) !important;
+}
+
+.iconBtnDanger {
+  background: var(--color-danger-glow) !important;
+  border-color: var(--color-danger) !important;
+  color: var(--color-danger) !important;
+}
+
+.cardBody { flex: 1; }
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: rgba(255,255,255,0.02);
+  border-radius: var(--radius-sm);
+  min-height: 34px;
+}
+
+.fieldLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  font-weight: 500;
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+.fieldValue {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.fieldText {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.02em;
+}
+
+.fieldLink {
+  font-size: 0.875rem;
+  color: var(--color-primary-light);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.fieldLink:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.copyBtn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  padding: 2px 4px;
+  font-size: 0.75rem;
+  color: var(--color-text-dim);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  opacity: 0;
+}
+
+.field:hover .copyBtn { opacity: 1; }
+
+.copyBtn:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border);
+  color: var(--color-success);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.tag {
+  padding: 2px 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 0.6875rem;
+  color: var(--color-text-dim);
+}
+
+.deleteBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--color-danger);
+  flex-wrap: wrap;
+}
+
+.deleteBanner span { flex: 1; }
+
+.timestamp {
+  font-size: 0.6875rem;
+  color: var(--color-text-dim);
+  margin-top: auto;
+}

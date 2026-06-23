@@ -1,0 +1,22 @@
+.appLayout {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.mainContent {
+  flex: 1;
+  margin-left: 260px;
+  min-height: 100vh;
+  padding: var(--space-8);
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    margin-left: 0;
+    padding: var(--space-4);
+    padding-bottom: 80px; /* bottom nav */
+  }
+}
