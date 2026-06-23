@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vault – Secure Password & API Key Manager",
+  title: "My-Vault – Secure Password & API Key Manager",
   description: "A premium, zero-knowledge vault to securely store and manage your passwords, API keys, and sensitive notes with end-to-end encryption.",
   keywords: ["password manager", "API key vault", "secure", "encrypted", "2FA"],
   robots: "noindex, nofollow",

@@ -16,7 +16,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             </defs>
           </svg>
         </div>
-        <span className={styles.brandName}>Vault</span>
+        <span className={styles.brandName}>My-Vault</span>
       </div>
       <main className={styles.main}>
         {children}

@@ -83,7 +83,7 @@ export default function RegisterPage() {
         </div>
 
         <ol style={{ paddingLeft: '20px', color: 'var(--color-text-dim)', lineHeight: '2', marginBottom: '24px', fontSize: '0.9rem' }}>
-          <li>Open the email from <strong style={{ color: 'var(--color-text)' }}>Vault App</strong></li>
+          <li>Open the email from <strong style={{ color: 'var(--color-text)' }}>My-Vault App</strong></li>
           <li>Click <strong style={{ color: 'var(--color-text)' }}>Confirm your email</strong></li>
           <li>You&apos;ll be signed in automatically</li>
         </ol>

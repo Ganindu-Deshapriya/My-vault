@@ -48,7 +48,7 @@ export default function Sidebar({ user, profile }: SidebarProps) {
             </defs>
           </svg>
         </div>
-        <span className={styles.logoText}>Vault</span>
+        <span className={styles.logoText}>My-Vault</span>
         {isUnlocked && <span className={styles.unlockBadge} title="Vault unlocked">🔓</span>}
       </div>
 

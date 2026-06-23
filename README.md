@@ -1,6 +1,6 @@
-# 🔐 Secure Vault App
+# 🔐 Secure My-Vault App
 
-A premium, highly secure web application for managing passwords and API keys. Built with Next.js 16 (App Router) and Supabase, featuring a zero-knowledge architecture where your vault items are encrypted entirely on the client side.
+A premium, highly secure web application for managing passwords and API keys. Built with Next.js 16 (App Router) and Supabase, featuring a zero-knowledge architecture where your my-vault items are encrypted entirely on the client side.
 
 ## ✨ Features
 

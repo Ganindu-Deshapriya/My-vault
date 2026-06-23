@@ -103,7 +103,7 @@ export async function enrollTotp() {
   const supabase = await createClient()
   const { data, error } = await supabase.auth.mfa.enroll({
     factorType: 'totp',
-    issuer: 'Vault App',
+    issuer: 'My-Vault App',
   })
 
   if (error) return { error: error.message }
