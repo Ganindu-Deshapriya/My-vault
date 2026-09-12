@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { useMasterKey } from '@/lib/masterKeyContext'
 import { verifyMasterPassword, decrypt, createMasterPasswordVerifier } from '@/lib/crypto'
 import { getVaultItems, type VaultItemRow } from '@/app/actions/vault'
@@ -10,7 +11,23 @@ import AddItemModal from './components/AddItemModal'
 import VaultItemCard from './components/VaultItemCard'
 import styles from './dashboard.module.css'
 
+const VALID_TYPES = ['password', 'api_key', 'note', 'card']
+
 export default function DashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <DashboardContent />
+    </Suspense>
+  )
+}
+
+function DashboardContent() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const typeParam = searchParams.get('type')
+  const favoriteParam = searchParams.get('favorite')
+  const filterType = VALID_TYPES.includes(typeParam ?? '') ? typeParam! : 'all'
+  const favoriteOnly = favoriteParam === 'true'
   const { masterPassword, isUnlocked, unlock } = useMasterKey()
   const [items, setItems] = useState<VaultItemRow[]>([])
   const [decryptedItems, setDecryptedItems] = useState<Map<string, Record<string, string>>>(new Map())
@@ -19,7 +36,6 @@ export default function DashboardPage() {
   const [showAddItem, setShowAddItem] = useState(false)
   const [addItemType, setAddItemType] = useState<'password' | 'api_key' | 'note' | 'card'>('password')
   const [searchQuery, setSearchQuery] = useState('')
-  const [filterType, setFilterType] = useState<string>('all')
   const [profile, setProfile] = useState<{ master_password_verifier: string | null; totp_enabled: boolean } | null>(null)
   const [needsMasterSetup, setNeedsMasterSetup] = useState(false)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null)
@@ -113,12 +129,22 @@ export default function DashboardPage() {
   }
 
   // Filter items
+  function handleFilterType(type: string) {
+    const params = new URLSearchParams(searchParams.toString())
+    if (type === 'all') params.delete('type')
+    else params.set('type', type)
+    params.delete('favorite')
+    const qs = params.toString()
+    router.replace(`/dashboard${qs ? `?${qs}` : ''}`, { scroll: false })
+  }
+
   const filteredItems = items.filter((item) => {
-    const matchesType = filterType === 'all' || item.item_type === filterType
+    const matchesFavorite = !favoriteOnly || item.favorite
+    const matchesType = favoriteOnly || filterType === 'all' || item.item_type === filterType
     const data = decryptedItems.get(item.id)
     const searchText = `${item.title} ${data ? Object.values(data).join(' ') : ''}`.toLowerCase()
     const matchesSearch = !searchQuery || searchText.includes(searchQuery.toLowerCase())
-    return matchesType && matchesSearch
+    return matchesFavorite && matchesType && matchesSearch
   })
 
   const stats = {
@@ -223,7 +249,7 @@ export default function DashboardPage() {
               <button
                 key={type}
                 className={`${styles.filterBtn} ${filterType === type ? styles.filterBtnActive : ''}`}
-                onClick={() => setFilterType(type)}
+                onClick={() => handleFilterType(type)}
               >
                 {type === 'all' ? 'All' : type === 'api_key' ? 'API Keys' : type.charAt(0).toUpperCase() + type.slice(1)}
               </button>
@@ -250,9 +276,9 @@ export default function DashboardPage() {
         ) : filteredItems.length === 0 ? (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon}>🗄️</div>
-            <h2>{searchQuery ? 'No results found' : 'Your vault is empty'}</h2>
-            <p>{searchQuery ? 'Try a different search term' : 'Add your first password, API key, or note'}</p>
-            {!searchQuery && (
+            <h2>{searchQuery ? 'No results found' : favoriteOnly ? 'No favorites yet' : 'Your vault is empty'}</h2>
+            <p>{searchQuery ? 'Try a different search term' : favoriteOnly ? 'Star an item to see it here' : 'Add your first password, API key, or note'}</p>
+            {!searchQuery && !favoriteOnly && (
               <button className="btn btn-primary" onClick={() => setShowAddItem(true)} id="add-first-item-btn">
                 + Add First Item
               </button>

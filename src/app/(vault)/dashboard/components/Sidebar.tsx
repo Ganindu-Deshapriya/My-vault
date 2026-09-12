@@ -1,7 +1,8 @@
 'use client'
 
+import { Suspense } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { signOut } from '@/app/actions/auth'
 import { useMasterKey } from '@/lib/masterKeyContext'
 import styles from './Sidebar.module.css'
@@ -21,9 +22,27 @@ interface SidebarProps {
   profile: { full_name: string; totp_enabled: boolean } | null
 }
 
-export default function Sidebar({ user, profile }: SidebarProps) {
+export default function Sidebar(props: SidebarProps) {
+  return (
+    <Suspense fallback={null}>
+      <SidebarContent {...props} />
+    </Suspense>
+  )
+}
+
+function SidebarContent({ user, profile }: SidebarProps) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const { isUnlocked, lock } = useMasterKey()
+
+  const type = searchParams.get('type')
+  const favorite = searchParams.get('favorite')
+
+  const isNavActive = (href: string) => {
+    if (href === '/dashboard') return !type && !favorite
+    if (href === '/dashboard?favorite=true') return favorite === 'true'
+    return type === href.split('type=')[1]
+  }
 
   const initials = (profile?.full_name || user.email || 'U')
     .split(' ')
@@ -55,7 +74,7 @@ export default function Sidebar({ user, profile }: SidebarProps) {
       {/* Nav */}
       <nav className={styles.nav}>
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.includes(item.href))
+          const isActive = isNavActive(item.href)
           return (
             <Link
               key={item.href}
